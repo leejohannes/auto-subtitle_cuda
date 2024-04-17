@@ -33,7 +33,8 @@ $videoDirectory = Split-Path -Parent $videoPath
 $videoFile = Split-Path -Leaf $videoPath
 
 # Construct the Docker command
-$dockerCommand = "docker run -it --rm -v ${videoDirectory}:/usr/src/app/data --name my-running-app auto-subtitle auto_subtitle '/usr/src/app/data/$videoFile' --model $model --output_dir /usr/src/app/data/$output_dir"
+# $dockerCommand = "docker run -it --rm -v ${videoDirectory}:/usr/src/app/data --name my-running-app auto-subtitle auto_subtitle '/usr/src/app/data/$videoFile' --model $model --output_dir /usr/src/app/data/$output_dir"
+$dockerCommand = "docker run -it --rm -v ${videoDirectory}:/usr/src/app/data -v my_downloaded_packages:/root/.cache/ --name my-running-app auto-subtitle auto_subtitle '/usr/src/app/data/$videoFile' --model $model --output_dir /usr/src/app/data/$output_dir"
 
 # Add the srt_only flag if it's true
 if ($srt_only -eq $true) {
@@ -42,3 +43,4 @@ if ($srt_only -eq $true) {
 
 # Run the Docker command
 Invoke-Expression $dockerCommand
+
