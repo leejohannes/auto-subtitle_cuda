@@ -7,7 +7,7 @@ setup(
     py_modules=["auto_subtitle"],
     author="Miguel Piedrafita",
     install_requires=[
-        'openai-whisper 20231117',
+        'openai-whisper==20231117',
     ],
     description="Automatically generate and embed subtitles into your videos",
     entry_points={
