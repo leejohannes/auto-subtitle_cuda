@@ -35,6 +35,10 @@ Adding `--task translate` will translate the subtitles into English:
 
     auto_subtitle /path/to/video.mp4 --task translate
 
+Adding '--language_out es' will translate the subtitles into Spanish.  Change 'es' to any other language.
+
+    auto_subtitle /path/to/video.mp4 --language_out es
+
 Run the following to view all available options:
 
     auto_subtitle --help
