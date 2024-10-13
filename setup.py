@@ -8,7 +8,7 @@ setup(
     author="Miguel Piedrafita",
     install_requires=[
         'openai-whisper',
-        'googletrans',
+        'deep_translator',
     ],
     description="Automatically generate and embed subtitles into your videos",
     entry_points={
