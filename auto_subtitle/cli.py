@@ -5,7 +5,7 @@ import argparse
 import warnings
 import tempfile
 from .utils import filename, str2bool, write_srt
-from googletrans import Translator  # We'll use googletrans for translation
+from deep_translator import GoogleTranslator  # We'll use for translation
 
 
 def main():
@@ -118,7 +118,7 @@ def get_subtitles(audio_paths: list, output_srt: bool, output_dir: str, transcri
     return subtitles_path
 
 def translate_subtitles(subtitles_path: dict, target_language: str):
-    translator = Translator()
+    translator = GoogleTranslator(source='auto', target=target_language)
     translated_subtitles = {}
 
     for path, srt_path in subtitles_path.items():
@@ -130,7 +130,7 @@ def translate_subtitles(subtitles_path: dict, target_language: str):
         translated_lines = []
         for line in lines:
             if line.strip() and not line[0].isdigit() and '-->' not in line:
-                translated_line = translator.translate(line.strip(), dest=target_language).text
+                translated_line = translator.translate(line.strip())
                 translated_lines.append(translated_line + '\n')
             else:
                 translated_lines.append(line)
