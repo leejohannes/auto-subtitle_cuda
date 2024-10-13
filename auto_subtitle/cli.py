@@ -5,6 +5,7 @@ import argparse
 import warnings
 import tempfile
 from .utils import filename, str2bool, write_srt
+from googletrans import Translator  # We'll use googletrans for translation
 
 
 def main():
@@ -27,6 +28,8 @@ def main():
                         "transcribe", "translate"], help="whether to perform X->X speech recognition ('transcribe') or X->English translation ('translate')")
     parser.add_argument("--language", type=str, default="auto", choices=["auto","af","am","ar","as","az","ba","be","bg","bn","bo","br","bs","ca","cs","cy","da","de","el","en","es","et","eu","fa","fi","fo","fr","gl","gu","ha","haw","he","hi","hr","ht","hu","hy","id","is","it","ja","jw","ka","kk","km","kn","ko","la","lb","ln","lo","lt","lv","mg","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","nn","no","oc","pa","pl","ps","pt","ro","ru","sa","sd","si","sk","sl","sn","so","sq","sr","su","sv","sw","ta","te","tg","th","tk","tl","tr","tt","uk","ur","uz","vi","yi","yo","zh"], 
     help="What is the origin language of the video? If unset, it is detected automatically.")
+    parser.add_argument("--language_out", type=str, default=None,
+                        help="The target language for translation. If not set, no translation will be performed.")
 
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
@@ -34,6 +37,7 @@ def main():
     output_srt: bool = args.pop("output_srt")
     srt_only: bool = args.pop("srt_only")
     language: str = args.pop("language")
+    language_out: str = args.pop("language_out")
     
     os.makedirs(output_dir, exist_ok=True)
 
@@ -51,6 +55,9 @@ def main():
         audios, output_srt or srt_only, output_dir, lambda audio_path: model.transcribe(audio_path, **args)
     )
 
+    if language_out:
+        subtitles = translate_subtitles(subtitles, language_out)
+        
     if srt_only:
         return
 
@@ -110,6 +117,31 @@ def get_subtitles(audio_paths: list, output_srt: bool, output_dir: str, transcri
 
     return subtitles_path
 
+def translate_subtitles(subtitles_path: dict, target_language: str):
+    translator = Translator()
+    translated_subtitles = {}
+
+    for path, srt_path in subtitles_path.items():
+        print(f"Translating subtitles for {filename(path)} to {target_language}...")
+        
+        with open(srt_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        translated_lines = []
+        for line in lines:
+            if line.strip() and not line[0].isdigit() and '-->' not in line:
+                translated_line = translator.translate(line.strip(), dest=target_language).text
+                translated_lines.append(translated_line + '\n')
+            else:
+                translated_lines.append(line)
+
+        translated_srt_path = srt_path.replace('.srt', f'_{target_language}.srt')
+        with open(translated_srt_path, 'w', encoding='utf-8') as file:
+            file.writelines(translated_lines)
+
+        translated_subtitles[path] = translated_srt_path
+
+    return translated_subtitles
 
 if __name__ == '__main__':
     main()
