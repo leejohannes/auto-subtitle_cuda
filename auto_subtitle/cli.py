@@ -26,6 +26,12 @@ def main():
                         help="only generate the .srt file and not create overlayed video, \"True\" to function it")
     parser.add_argument("--verbose", type=str2bool, default=False,
                         help="whether to print out the progress and debug messages")
+    # add --temp
+    parser.add_argument("--temp", type=str2bool, default=False,
+                        help=".wav file in temp folder or same with video path True or False")
+    # add --hard
+    parser.add_argument("--hard", type=str2bool, default=False,
+                        help="Define subtilte soft or hard, hrad one is overlap on original graph")
     parser.add_argument("--task", type=str, default="transcribe", choices=[
                         "transcribe", "translate"], help="whether to perform X->X speech recognition ('transcribe') or X->English translation ('translate')")
     parser.add_argument("--language", type=str, default="auto", choices=["auto","af","am","ar","as","az","ba","be","bg","bn","bo","br","bs","ca","cs","cy","da","de","el","en","es","et","eu","fa","fi","fo","fr","gl","gu","ha","haw","he","hi","hr","ht","hu","hy","id","is","it","ja","jw","ka","kk","km","kn","ko","la","lb","ln","lo","lt","lv","mg","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","nn","no","oc","pa","pl","ps","pt","ro","ru","sa","sd","si","sk","sl","sn","so","sq","sr","su","sv","sw","ta","te","tg","th","tk","tl","tr","tt","uk","ur","uz","vi","yi","yo","zh"], 
@@ -38,10 +44,12 @@ def main():
     output_dir: str = args.pop("output_dir")
     output_srt: bool = args.pop("output_srt")
     srt_only: bool = args.pop("srt_only")
+    set_temp: bool = args.pop("temp")
+    hard: bool = args.pop("hard")
     language: str = args.pop("language")
     
     os.makedirs(output_dir, exist_ok=True)
-
+    
     if model_name.endswith(".en"):
         warnings.warn(
             f"{model_name} is an English-only model, forcing English detection.")
@@ -51,9 +59,9 @@ def main():
         args["language"] = language
     # add --device
     model = whisper.load_model(model_name, device)
-    audios = get_audio(args.pop("video"))
+    audios = get_audio(args.pop("video"),set_temp,output_dir)
     subtitles = get_subtitles(
-        audios, output_srt or srt_only, output_dir, lambda audio_path: model.transcribe(audio_path, **args)
+        audios, (output_srt or srt_only or (not set_temp)), output_dir, lambda audio_path: model.transcribe(audio_path, **args)
     )
 
     if srt_only:
@@ -66,28 +74,46 @@ def main():
 
         video = ffmpeg.input(path)
         audio = video.audio
-
-        ffmpeg.concat(
-            video.filter('subtitles', srt_path, force_style="OutlineColour=&H40000000,BorderStyle=3"), audio, v=1, a=1
-        ).output(out_path).run(quiet=True, overwrite_output=True)
-
+        print(" ! ! !\n please set --output_dir or -o, the original video cannot be overwrite\n \
+and I do suggest you using other way to put subtilte \n since it really not good for watching\n ! ! ! ")
+        '''
+        I wanna give a vf for NV but...I cannot make it... and soft subtitle with codec copy quite fast
+        And using h264_nvenc will get this error
+        filter 'graph 0 input from stream 0:0' and the filter 'auto_scale_0'
+        if you wanna know what happend remove # below and give "--hard true --srt_only False -o anyname"
+        '''
+        #cmd= ['ffmpeg','-hwaccel','cuda','-hwaccel_output_format','cuda'] if (device=="cuda") else 'ffmpeg'
+        #nvenc_det= '_nvenc' if (device=='cuda') else ''
+        if hard:
+            (ffmpeg
+            .concat(video.filter('subtitles', srt_path,force_style="OutlineColour=&H40000000,BorderStyle=3"),audio, v=1, a=1)
+            .output(out_path,vcodec='h264')
+            #.output(out_path,vcodec='h264'+nvenc_det)
+            #.run(cmd,quiet=False, overwrite_output=True))
+            .run(quiet=False, overwrite_output=True)
+            )
+        else:
+            cmd =['ffmpeg','-i', srt_path]
+            (ffmpeg
+            .input(path)
+            .output(out_path,vcodec='copy',acodec='copy')
+            .run(cmd,quiet=False, overwrite_output=True)
+            )
         print(f"Saved subtitled video to {os.path.abspath(out_path)}.")
 
 
-def get_audio(paths):
-    temp_dir = tempfile.gettempdir()
+def get_audio(paths,set_temp,output_dir):
+    temp_dir = tempfile.gettempdir() if set_temp else output_dir
 
     audio_paths = {}
 
     for path in paths:
         print(f"Extracting audio from {filename(path)}...")
         output_path = os.path.join(temp_dir, f"{filename(path)}.wav")
-
         ffmpeg.input(path).output(
             output_path,
             acodec="pcm_s16le", ac=1, ar="16k"
-        ).run(quiet=True, overwrite_output=True)
-
+        ).run(quiet=False, overwrite_output=True)
         audio_paths[path] = output_path
 
     return audio_paths
