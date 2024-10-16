@@ -36,7 +36,7 @@ since it using `%temp%` folder
 pip install ffmpeg-python
 ```
 make sure you download `ffmpeg` and put the path to $Path </p>
-to download [`ffmpeg`](https://github.com/BtbN/FFmpeg-Builds/releases)
+to download [`ffmpeg`](https://github.com/BtbN/FFmpeg-Builds/releases) </p>
 *win64-lgpl-shared.zip will be smaller enough to use
 
 ```
