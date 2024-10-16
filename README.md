@@ -16,7 +16,7 @@
 
 2. Add `--device` that run whisper on your `nVidia` graphic card or `cpu`,</p>
    change default setting of `--srt_only` and `--model`, since the combine option not working on windows... and GPU is easy to handel turbo model </p>
-   deault is cuda, if you have problem to run it plz using `cpu` lowercase and without quota, `--model` better set to small</p>
+   default is cuda, if you have problem to run it plz using `cpu` lowercase and without quota, `--model` better set to small</p>
    ![image](https://github.com/user-attachments/assets/956437b6-08b3-4a28-810c-e75c46a7390f)
    `whisper` turbo model on 3070 laptop
 
