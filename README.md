@@ -10,7 +10,7 @@
 2. Add `--device` that run whisper on your `nVidia` graphic card or cpu,</p>
    change default setting of `--srt_only` and `--model`, since the combine option not woring on windows... and GPU is easy to handel turbo model </p>
    deault is cuda, if you dont have plz using `cpu` lowercase and without quota</p>
-![image](https://github.com/user-attachments/assets/956437b6-08b3-4a28-810c-e75c46a7390f){:target="_blank"}
+![image](https://github.com/user-attachments/assets/956437b6-08b3-4a28-810c-e75c46a7390f)
 `whisper` turbo model on 3070 laptop
 
 
@@ -25,7 +25,7 @@
    unsloth_Windows_conda_Path\Scripts
    ```
    to your windows user path, if you don't know how please reference to </p>
-   ['Setting the path and variables on Windows'](https://www.google.com/search?q=Setting+the+path+and+variables+on+Windows){:target="_blank"}
+   ['Setting the path and variables on Windows'](https://www.google.com/search?q=Setting+the+path+and+variables+on+Windows)
 
 4. if you get this problem `RuntimeError: Numpy is not available`
    ```
@@ -37,7 +37,7 @@
 pip install ffmpeg-python
 ```
 make sure you download `ffmpeg` and put the path to $Path </p>
-to download [`ffmpeg`](https://github.com/BtbN/FFmpeg-Builds/releases){:target="_blank"}</p>
+to download [`ffmpeg`](https://github.com/BtbN/FFmpeg-Builds/releases)/p>
 *win64-lgpl-shared.zip will be smaller enough to use
 
 ```
