@@ -31,7 +31,27 @@ since it using `%temp%` folder
    pip install "numpy<2"
    ```
 
+# Install update
+```
+pip install ffmpeg-python
+```
+make sure you download `ffmpeg` and put the path to $Path
+to download [`ffmpeg`](https://github.com/BtbN/FFmpeg-Builds/releases)
+*win64-lgpl-shared.zip will be smaller enough to use
 
+```
+pip install git+https://github.com/leejohannes/auto-subtitle_cuda.git
+```
+
+# Usage update
+for windows with cuda
+```
+auto_subtitle /path/to/video.mp4
+```
+for cpu user
+```
+auto_subtitle /path/to/video.mp4 -d cpu --model small
+```
 
 ---
 original README.md
@@ -43,9 +63,9 @@ This repository uses `ffmpeg` and [OpenAI's Whisper](https://openai.com/blog/whi
 ## Installation
 
 To get started, you'll need Python 3.7 or newer. Install the binary by running the following command:
-
+```
     pip install git+https://github.com/leejohannes/auto-subtitle_cuda.git
-
+```
 You'll also need to install [`ffmpeg`](https://ffmpeg.org/), which is available from most package managers:
 
 ```bash
