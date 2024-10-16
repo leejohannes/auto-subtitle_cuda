@@ -43,6 +43,10 @@ to download [`ffmpeg`](https://github.com/BtbN/FFmpeg-Builds/releases) </p>
 ```
 pip install git+https://github.com/leejohannes/auto-subtitle_cuda.git
 ```
+and...you may remove old auto-subtitle
+```
+pip uninstall auto-subtitle
+```
 
 # Usage update
 for windows with cuda
