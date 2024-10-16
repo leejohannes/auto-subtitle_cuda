@@ -5,15 +5,16 @@ pip install ffmpeg-python
 pip uninstall ffmpeg
 ```
 and it won't combine the subtitle with video
-since it using %temp% folder
+since it using `%temp%` folder
 
-2. Add `--cuda` that run whisper on your `nVidia` graphic card
-![image](https://github.com/user-attachments/assets/c8e24fe9-a0ff-4107-b7a7-c5d0858f9f50)
+2. Add `--device` that run whisper on your `nVidia` graphic card or cpu,
+   change default setting of `--srt_only` and `--model`, since the combine option not woring on windows... and GPU is easy to handel turbo model 
+   deault is cuda, if you dont have plz using `cpu` lowercase and without quota
+![image](https://github.com/user-attachments/assets/956437b6-08b3-4a28-810c-e75c46a7390f)
 `whisper` turbo model on 3070 laptop
-![image](https://github.com/user-attachments/assets/77256f49-aadf-476d-8dc9-9fee71251fac)
-`whisper` small model on 3070 latop
 
-3. the environment...
+
+4. the environment...
    whether you set up a torch with your own or
    using my set-up for `unsloth`
    https://github.com/leejohannes/unsloth_Windows_conda
