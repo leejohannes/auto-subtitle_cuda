@@ -7,7 +7,11 @@
    and it won't combine the subtitle with video </p>
    since it using `%temp%` folder
    ---
-   1.1 add `--hard` `--temp`
+   1.1 add `--hard` `--temp`</p>
+   `--hard` if you still wanna hard subtitle give a `true`</p>
+   `--temp` if you wanna using temp folder save .wav</p>
+   the logic is (output_srt or srt_only or (not set_temp))</p>
+   if you feel I'm wrong plz pull it and make another version,lol</p>
    ---
 
 3. Add `--device` that run whisper on your `nVidia` graphic card or cpu,</p>
