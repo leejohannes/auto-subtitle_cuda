@@ -22,19 +22,36 @@
 
 
 3. the environment...</p>
-   whether you set up a torch with your own or</p>
-   using my set-up for `unsloth`</p>
+   ~~whether you set up a torch with your own or~~</p>
+   ~~using my set-up for `unsloth`~~</p>
    https://github.com/leejohannes/unsloth_Windows_conda </p>
-   and </p>
-   you may add the path </p>
+   seems unsloth env is to large but still okay to reference it</p>
+   ```powershell
+   conda create -p 'pytorch-cuda_Windows_conda_Path' `
+    python=3.11 `
+     pytorch-cuda=12.1 `
+     pytorch cudatoolkit -c pytorch -c nvidia `
+     -y
+   conda activate 'pytorch-cuda_Windows_conda_Path'
    ```
-   unsloth_Windows_conda_Path
-   unsloth_Windows_conda_Path\Scripts
+   ya , you need install https://www.anaconda.com/download/success <p/>
+   and https://developer.nvidia.com/cuda-12-1-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local </p>
+   well...my `cuda` driver is 12.6, `pytorch-cuda` 12.1 no problem run on it <p/>
+   or check this one https://anaconda.org/pytorch/pytorch-cuda <p/>
+   pythone version not limited choose last `pytorch-cuda` verision
+   ```
+   conda install pytorch-cuda
+   ```
+   
+   and then you may add the path </p>
+   ```
+   pytorch-cuda_Windows_conda_Path
+   pytorch-cuda_Windows_conda_Path\Scripts
    ```
    to your windows user path, if you don't know how please reference to </p>
    ['Setting the path and variables on Windows'](https://www.google.com/search?q=Setting+the+path+and+variables+on+Windows)
 
-4. if you get this problem `RuntimeError: Numpy is not available`
+5. if you get this problem `RuntimeError: Numpy is not available`
    ```
    pip install "numpy<2"
    ```
