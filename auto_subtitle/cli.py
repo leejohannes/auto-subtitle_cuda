@@ -12,17 +12,20 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("video", nargs="+", type=str,
                         help="paths to video files to transcribe")
-    parser.add_argument("--model", default="small",
+    # model change to turbo
+    parser.add_argument("--model", default="turbo",
                         choices=whisper.available_models(), help="name of the Whisper model to use")
+    # add --device
+    parser.add_argument("--device","-d", type=str,default="cuda",
+                        help="cuda or cpu to run Whisper, didn't set will let environment to choose")                    
     parser.add_argument("--output_dir", "-o", type=str,
                         default=".", help="directory to save the outputs")
     parser.add_argument("--output_srt", type=str2bool, default=False,
                         help="whether to output the .srt file along with the video files")
-    parser.add_argument("--srt_only", type=str2bool, default=False,
-                        help="only generate the .srt file and not create overlayed video")
+    parser.add_argument("--srt_only", type=str2bool, default=True,
+                        help="only generate the .srt file and not create overlayed video, \"True\" to function it")
     parser.add_argument("--verbose", type=str2bool, default=False,
                         help="whether to print out the progress and debug messages")
-
     parser.add_argument("--task", type=str, default="transcribe", choices=[
                         "transcribe", "translate"], help="whether to perform X->X speech recognition ('transcribe') or X->English translation ('translate')")
     parser.add_argument("--language", type=str, default="auto", choices=["auto","af","am","ar","as","az","ba","be","bg","bn","bo","br","bs","ca","cs","cy","da","de","el","en","es","et","eu","fa","fi","fo","fr","gl","gu","ha","haw","he","hi","hr","ht","hu","hy","id","is","it","ja","jw","ka","kk","km","kn","ko","la","lb","ln","lo","lt","lv","mg","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","nn","no","oc","pa","pl","ps","pt","ro","ru","sa","sd","si","sk","sl","sn","so","sq","sr","su","sv","sw","ta","te","tg","th","tk","tl","tr","tt","uk","ur","uz","vi","yi","yo","zh"], 
@@ -30,6 +33,8 @@ def main():
 
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
+    # add --device
+    device: str =  args.pop("device")
     output_dir: str = args.pop("output_dir")
     output_srt: bool = args.pop("output_srt")
     srt_only: bool = args.pop("srt_only")
@@ -44,8 +49,8 @@ def main():
     # if translate task used and language argument is set, then use it
     elif language != "auto":
         args["language"] = language
-        
-    model = whisper.load_model(model_name)
+    # add --device
+    model = whisper.load_model(model_name, device)
     audios = get_audio(args.pop("video"))
     subtitles = get_subtitles(
         audios, output_srt or srt_only, output_dir, lambda audio_path: model.transcribe(audio_path, **args)
