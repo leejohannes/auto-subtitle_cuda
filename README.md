@@ -26,6 +26,11 @@ since it using `%temp%` folder
    ```
    to your windows user path, if you don't know how please reference to ['Setting the path and variables on Windows'](https://www.google.com/search?q=Setting+the+path+and+variables+on+Windows)
 
+6. if you get this problem `RuntimeError: Numpy is not available`
+   ```
+   pip install "numpy<2"
+   ```
+
 
 
 ---
