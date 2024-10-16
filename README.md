@@ -9,9 +9,9 @@ since it using %temp% folder
 
 2. Add `--cuda` that run whisper on your `nVidia` graphic card
 ![image](https://github.com/user-attachments/assets/c8e24fe9-a0ff-4107-b7a7-c5d0858f9f50)
-turbo model on 3070 laptop
+`whisper` turbo model on 3070 laptop
 ![image](https://github.com/user-attachments/assets/77256f49-aadf-476d-8dc9-9fee71251fac)
-small model on 3070 latop
+`whisper` small model on 3070 latop
 
 3. the environment...
    whether you set up a torch with your own or
