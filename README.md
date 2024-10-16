@@ -1,32 +1,33 @@
 # What I changed
 1. For windows  ffmpeg
-```
-pip install ffmpeg-python
-pip uninstall ffmpeg
-```
-and it won't combine the subtitle with video
-since it using `%temp%` folder
+   ```
+   pip install ffmpeg-python
+   pip uninstall ffmpeg
+   ```
+   and it won't combine the subtitle with video </p>
+   since it using `%temp%` folder
 
-2. Add `--device` that run whisper on your `nVidia` graphic card or cpu,
-   change default setting of `--srt_only` and `--model`, since the combine option not woring on windows... and GPU is easy to handel turbo model 
-   deault is cuda, if you dont have plz using `cpu` lowercase and without quota
+2. Add `--device` that run whisper on your `nVidia` graphic card or cpu,</p>
+   change default setting of `--srt_only` and `--model`, since the combine option not woring on windows... and GPU is easy to handel turbo model </p>
+   deault is cuda, if you dont have plz using `cpu` lowercase and without quota</p>
 ![image](https://github.com/user-attachments/assets/956437b6-08b3-4a28-810c-e75c46a7390f)
 `whisper` turbo model on 3070 laptop
 
 
-4. the environment...
-   whether you set up a torch with your own or
-   using my set-up for `unsloth`
-   https://github.com/leejohannes/unsloth_Windows_conda
-   and
-   you may add the path
+3. the environment...</p>
+   whether you set up a torch with your own or</p>
+   using my set-up for `unsloth`</p>
+   https://github.com/leejohannes/unsloth_Windows_conda </p>
+   and </p>
+   you may add the path </p>
    ```
    unsloth_Windows_conda_Path
    unsloth_Windows_conda_Path\Scripts
    ```
-   to your windows user path, if you don't know how please reference to ['Setting the path and variables on Windows'](https://www.google.com/search?q=Setting+the+path+and+variables+on+Windows)
+   to your windows user path, if you don't know how please reference to </p>
+   ['Setting the path and variables on Windows'](https://www.google.com/search?q=Setting+the+path+and+variables+on+Windows)
 
-6. if you get this problem `RuntimeError: Numpy is not available`
+4. if you get this problem `RuntimeError: Numpy is not available`
    ```
    pip install "numpy<2"
    ```
