@@ -1,3 +1,18 @@
+#what I changed
+1. For windows  ffmpeg
+```
+pip install ffmpeg-python
+pip uninstall ffmpeg
+```
+and it won't combine the subtitle with video
+since it using %temp% folder
+
+2. Add `--cuda` that run whisper on your `nVidia` graphic card
+   ![image](https://github.com/user-attachments/assets/c8e24fe9-a0ff-4107-b7a7-c5d0858f9f50)
+
+
+
+
 # Automatic subtitles in your videos
 
 This repository uses `ffmpeg` and [OpenAI's Whisper](https://openai.com/blog/whisper) to automatically generate and overlay subtitles on any video.
@@ -6,7 +21,7 @@ This repository uses `ffmpeg` and [OpenAI's Whisper](https://openai.com/blog/whi
 
 To get started, you'll need Python 3.7 or newer. Install the binary by running the following command:
 
-    pip install git+https://github.com/m1guelpf/auto-subtitle.git
+    pip install git+https://github.com/leejohannes/auto-subtitle_cuda.git
 
 You'll also need to install [`ffmpeg`](https://ffmpeg.org/), which is available from most package managers:
 
@@ -16,10 +31,10 @@ sudo apt update && sudo apt install ffmpeg
 
 # on MacOS using Homebrew (https://brew.sh/)
 brew install ffmpeg
-
-# on Windows using Chocolatey (https://chocolatey.org/)
-choco install ffmpeg
 ```
+~~# on Windows using Chocolatey (https://chocolatey.org/)~~
+~~choco install ffmpeg~~
+
 
 ## Usage
 
